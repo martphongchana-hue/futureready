@@ -1052,26 +1052,9 @@ nav button.pro-tab:hover {
 }
 
 /* Cart icon button */
-.cart-icon-btn {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255,255,255,0.12);
-  border: 2px solid rgba(255,255,255,0.25);
-  border-radius: 12px;
-  color: white;
-  width: 48px;
-  height: 48px;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: background 0.2s;
-  margin-left: 8px;
-}
-.cart-icon-btn:hover {
-  background: rgba(29,190,160,0.3);
-  border-color: #1dbea0;
-}
+
+
+
 .cart-count-badge {
   position: absolute;
   top: -6px;
@@ -1719,12 +1702,102 @@ body.hero-visible #particleCanvas { opacity: 1; }
   transform: translateX(-50%) translateY(0);
 }
 
+
 /* ================================================================
    END AUTH MODAL
    ================================================================ */
 /* ================================================================
    END ANIMATIONS
    ================================================================ */
+  
+/* ===== CART FIX: no frame + position above Login in mobile hamburger ===== */
+.cart-icon-btn,
+nav .cart-icon-btn,
+nav.show .cart-icon-btn{
+  position:relative !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  background:transparent !important;
+  border:none !important;
+  box-shadow:none !important;
+  outline:none !important;
+  color:white !important;
+  width:auto !important;
+  height:auto !important;
+  min-height:auto !important;
+  padding:8px 10px !important;
+  margin:0 6px !important;
+  border-radius:0 !important;
+  cursor:pointer !important;
+}
+
+.cart-icon-btn:hover,
+nav.show .cart-icon-btn:hover{
+  background:transparent !important;
+  border:none !important;
+  box-shadow:none !important;
+  transform:none !important;
+}
+
+.cart-icon-btn::after{
+  display:none !important;
+}
+
+.cart-count-badge{
+  position:absolute !important;
+  top:2px !important;
+right:-4px !important;
+
+  background:#1dbea0 !important;
+  color:#fff !important;
+
+  min-width:18px !important;
+  height:18px !important;
+
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+
+  border-radius:999px !important;
+  font-size:11px !important;
+  font-weight:900 !important;
+}
+
+.cart-icon-btn{
+  position:relative !important;
+  overflow:visible !important;
+}
+
+@media (max-width:1366px){
+
+  nav.show{
+    display:flex !important;
+    flex-direction:column !important;
+  }
+
+  nav.show #cartIconBtn{
+    order:11 !important;
+    width:100% !important;
+    height:50px !important;
+    border-radius:12px !important;
+    background:#1dbea0 !important;
+    color:white !important;
+    display:flex !important;
+    justify-content:center !important;
+    align-items:center !important;
+    margin:0 !important;
+  }
+
+  nav.show button[onclick="logoutUser()"]{
+    order:12 !important;
+  }
+
+  nav.show #loginNavBtn{
+    order:13 !important;
+  }
+}
+
   </style>
   
 </head>
@@ -1842,45 +1915,47 @@ body.hero-visible #particleCanvas { opacity: 1; }
         <button data-page="jobs">Jobs</button>
         <button data-page="teacher">Teacher</button>
         <button data-page="premium">Premium</button>
-       <span id="premiumBadge" class="badge" style="display:none;">
- Premium Member
-</span>
- <button onclick="logoutUser()">
-Logout
-</button>
-<button id="loginNavBtn" onclick="openAuthModal('login')" style="background:linear-gradient(135deg,#1dbea0,#0f766e);color:#fff;border:none;">
-เข้าสู่ระบบ
-</button>
 
-<span id="proMenu">
-  <button class="pro-tab" data-page="resumeAnalyzer"> Resume AI</button>
-  <button class="pro-tab" data-page="mockInterview"> Mock Interview</button>
-  <button class="pro-tab" data-page="careerRoadmap">Roadmap</button>
-  <button class="pro-tab" data-page="proReport"> Pro Report</button>
-  <button class="pro-tab" data-page="certificate"> Certificate</button>
-  <button class="pro-tab" data-page="prioritySupport"> Support</button>
-</span>
-<button id="cancelPremiumBtn"
-        onclick="cancelPremium()"
-        style="display:none;
-               margin-left:10px;
-               padding:6px 12px;
-               border:none;
-               border-radius:20px;
-               background:#e9565f;
-               color:white;
-               cursor:pointer;">
-  ยกเลิกสมาชิก
-</button>
-
-</nav>
-<button id="cartIconBtn" onclick="go('checkout')" class="cart-icon-btn" style="display:none;" title="ตะกร้าสินค้า">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <span id="premiumBadge" class="badge" style="display:none;">Premium Member</span>
+          <button id="cartIconBtn" onclick="go('checkout')" class="cart-icon-btn" title="ตะกร้าสินค้า" aria-label="ตะกร้าสินค้า">
+  <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
     <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
     <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
   </svg>
   <span id="cartCountBadge" class="cart-count-badge">0</span>
 </button>
+
+        <button onclick="logoutUser()">Logout</button>
+
+      
+
+        <button id="loginNavBtn" onclick="openAuthModal('login')" style="background:linear-gradient(135deg,#1dbea0,#0f766e);color:#fff;border:none;">
+          เข้าสู่ระบบ
+        </button>
+
+        <span id="proMenu">
+          <button class="pro-tab" data-page="resumeAnalyzer"> Resume AI</button>
+          <button class="pro-tab" data-page="mockInterview"> Mock Interview</button>
+          <button class="pro-tab" data-page="careerRoadmap">Roadmap</button>
+          <button class="pro-tab" data-page="proReport"> Pro Report</button>
+          <button class="pro-tab" data-page="certificate"> Certificate</button>
+          <button class="pro-tab" data-page="prioritySupport"> Support</button>
+        </span>
+
+        <button id="cancelPremiumBtn"
+                onclick="cancelPremium()"
+                style="display:none;
+                       margin-left:10px;
+                       padding:6px 12px;
+                       border:none;
+                       border-radius:20px;
+                       background:#e9565f;
+                       color:white;
+                       cursor:pointer;">
+          ยกเลิกสมาชิก
+        </button>
+      </nav>
+
 </div>
   </header>
 <section id="home" style="padding:0;">
@@ -2075,44 +2150,29 @@ Logout
         <h2 style="margin-top:20px;">รวมทั้งหมด: <span id="cartTotal" style="color:#1dbea0;">0</span> บาท</h2>
         <button class="btn" id="payBtn">ชำระเงินจำลอง</button>
         <button class="btn danger" id="clearCartBtn">ล้างตะกร้า</button>
-        <div id="qrSection"
+
+        <div id="qrSection" style="display:none;text-align:center;margin-top:20px;">
+          <h2>QR Payment Demo</h2>
+          <img id="qrImage" alt="QR Payment Demo" style="width:280px;max-width:100%;border-radius:12px;">
+          <p id="qrAmount"></p>
+          <p style="color:red;">* QR นี้ใช้สำหรับพรีเซนต์เท่านั้น</p>
+        </div>
+
         <div id="receiptSection"
-     style="display:none;margin-top:25px;padding:25px;border:2px solid #271f66;border-radius:16px;background:white;">
-
-  <h2 style="text-align:center;">ใบเสร็จรับเงิน</h2>
-  <p><b>เลขที่ใบเสร็จ:</b> <span id="receiptNo"></span></p>
-  <p><b>วันที่ชำระเงิน:</b> <span id="receiptDate"></span></p>
-  <p><b>สถานะ:</b> <span style="color:green;font-weight:bold;">ชำระเงินแล้ว</span></p>
-
-  <hr style="margin:15px 0;">
-
-  <div id="receiptItems"></div>
-
-  <hr style="margin:15px 0;">
-
-  <h2>รวมสุทธิ: <span id="receiptTotal" style="color:#1dbea0;"></span> บาท</h2>
-
-  <p style="font-size:14px;color:#777;">
-    * ใบเสร็จนี้เป็นระบบจำลองสำหรับการนำเสนอเท่านั้น
-  </p>
-
-  <button class="btn secondary" onclick="window.print()">พิมพ์ใบเสร็จ</button>
-</div>
-     style="display:none;text-align:center;margin-top:20px;">
-
-  <h2>QR Payment Demo</h2>
-
-  <img id="qrImage"
-       style="width:280px;max-width:100%;border-radius:12px;">
-
-  <p id="qrAmount"></p>
-
-  <p style="color:red;">
-    * QR นี้ใช้สำหรับพรีเซนต์เท่านั้น
-  </p>
-
-</div>
+             style="display:none;margin-top:25px;padding:25px;border:2px solid #271f66;border-radius:16px;background:white;">
+          <h2 style="text-align:center;">ใบเสร็จรับเงิน</h2>
+          <p><b>เลขที่ใบเสร็จ:</b> <span id="receiptNo"></span></p>
+          <p><b>วันที่ชำระเงิน:</b> <span id="receiptDate"></span></p>
+          <p><b>สถานะ:</b> <span style="color:green;font-weight:bold;">ชำระเงินแล้ว</span></p>
+          <hr style="margin:15px 0;">
+          <div id="receiptItems"></div>
+          <hr style="margin:15px 0;">
+          <h2>รวมสุทธิ: <span id="receiptTotal" style="color:#1dbea0;"></span> บาท</h2>
+          <p style="font-size:14px;color:#777;">* ใบเสร็จนี้เป็นระบบจำลองสำหรับการนำเสนอเท่านั้น</p>
+          <button class="btn secondary" onclick="window.print()">พิมพ์ใบเสร็จ</button>
+        </div>
       </div>
+
       <div class="white-card">
         <h2>Payment Mockup</h2>
         <input placeholder="ชื่อบนบัตร / ชื่อผู้โอน">
@@ -6369,10 +6429,45 @@ function logoutUser(){
   }
 
   function payMockup() {
-    if (!cart.length) { alert('ยังไม่มีสินค้าในตะกร้า'); return; }
+    if (!cart.length) { 
+      alert('ยังไม่มีสินค้าในตะกร้า'); 
+      return; 
+    }
+
     const total = cart.reduce((sum, item) => sum + item.price, 0);
+    const paidAt = new Date().toLocaleString('th-TH');
+    const receiptNo = 'RC' + Date.now();
+
+    const qrText = `DIGITECH FUTUREREADY AI DEMO PAYMENT | RECEIPT ${receiptNo} | AMOUNT ${total} BAHT`;
+
+    const qrSection = byId('qrSection');
+    const qrImage = byId('qrImage');
+    const qrAmount = byId('qrAmount');
+    const receiptSection = byId('receiptSection');
+    const receiptItems = byId('receiptItems');
+
+    if (qrSection) qrSection.style.display = 'block';
+    if (qrAmount) qrAmount.textContent = 'ยอดชำระจำลอง ' + baht(total) + ' บาท';
+    if (qrImage) {
+      qrImage.src = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' + encodeURIComponent(qrText);
+    }
+
+    if (receiptSection) receiptSection.style.display = 'block';
+    if (byId('receiptNo')) byId('receiptNo').textContent = receiptNo;
+    if (byId('receiptDate')) byId('receiptDate').textContent = paidAt;
+    if (byId('receiptTotal')) byId('receiptTotal').textContent = total.toLocaleString();
+
+    if (receiptItems) {
+      receiptItems.innerHTML = cart.map(item => `
+        <div class="cart-item">
+          <span>${item.title}</span>
+          <b>${baht(item.price)} บาท</b>
+        </div>
+      `).join('');
+    }
+
+    localStorage.setItem('futureReadyLastPayment', JSON.stringify({ total, cart, paidAt, receiptNo }));
     alert('ชำระเงินจำลองสำเร็จ รวม ' + baht(total) + ' บาท');
-    localStorage.setItem('futureReadyLastPayment', JSON.stringify({ total, cart, paidAt: new Date().toLocaleString('th-TH') }));
   }
 
   function wireEvents() {
@@ -6394,24 +6489,19 @@ byId('loginBtn')
     document.body.addEventListener('click', event => {
       const option = event.target.closest('[data-skill]');
       if (option) setAnswer(option.dataset.skill, Number(option.dataset.score));
+
       const courseBtn = event.target.closest('[data-add-course]');
       if (courseBtn) addToCart('course', courseBtn.dataset.addCourse);
+
       const tutorBtn = event.target.closest('[data-add-tutor]');
       if (tutorBtn) addToCart('tutor', tutorBtn.dataset.addTutor);
+
       const removeBtn = event.target.closest('[data-remove-cart]');
-      if (removeBtn) { cart.splice(Number(removeBtn.dataset.removeCart), 1); saveCart(); renderCart(); 
-      const receiptNo = "RC" + Date.now();
-
-document.getElementById("receiptSection").style.display = "block";
-document.getElementById("receiptNo").textContent = receiptNo;
-document.getElementById("receiptDate").textContent =
-  new Date().toLocaleString("th-TH");
-
-document.getElementById("receiptTotal").textContent =
-  total.toLocaleString();
-
-document.getElementById("receiptItems").innerHTML =
-  document.getElementById("cartList").innerHTML;}
+      if (removeBtn) { 
+        cart.splice(Number(removeBtn.dataset.removeCart), 1); 
+        saveCart(); 
+        renderCart(); 
+      }
     });
   }
 
