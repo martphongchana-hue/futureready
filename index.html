@@ -6016,10 +6016,14 @@ right:-4px !important;
       return byId('targetCareer') ? byId('targetCareer').value : 'Data Analyst';
     }
 
-  function getCurrentQuestions(){
-      const career = getSelectedCareer();
-      return careerQuestionBank[career] || careerQuestionBank['Data Analyst'];
-    }
+  function getCurrentQuestions() {
+
+  const career = byId('targetCareer')
+    ? byId('targetCareer').value
+    : (JSON.parse(localStorage.getItem('futureReadyUser') || '{}').career || 'Data Analyst');
+
+  return careerQuestionBank[career] || skills;
+}
 
   function buildDefaultAnswers(){
       const base = { ai:45, prompt:45, data:45, sql:45, human:45, career:45 };
@@ -6479,9 +6483,29 @@ function logoutUser(){
 
 byId('loginBtn')
 .addEventListener('click', loginUser);
-    byId('targetCareer').addEventListener('change', saveProfile);
+  byId('targetCareer').addEventListener('change', function(){
+
+  saveProfile();
+
+  localStorage.setItem(
+    'selectedCareer',
+    byId('targetCareer').value
+  );
+
+  location.reload();
+
+});
   
-    byId('analyzeBtn').addEventListener('click', () => { calculateResult(); saveAssessment(); go('dashboard'); });
+    byId('analyzeBtn').addEventListener('click', () => {
+
+  saveProfile();
+  renderQuiz();
+  calculateResult();
+  saveAssessment();
+
+  go('dashboard');
+
+});
     byId('resetBtn').addEventListener('click', resetAssessment);
     byId('exportBtn').addEventListener('click', exportReport);
     byId('payBtn').addEventListener('click', payMockup);
@@ -7041,6 +7065,19 @@ window.updateProMenu = updateProMenu;
 
 // Init
 updateProMenu();
+
+const careerSelect = document.getElementById("targetCareer");
+
+if (careerSelect) {
+  careerSelect.addEventListener("change", function () {
+    localStorage.setItem("targetCareer", this.value);
+
+    renderQuiz();
+    calculateResult();
+
+    console.log("เปลี่ยนอาชีพเป็น:", this.value);
+  });
+}
 
 /* ==================== END PREMIUM PRO JS ==================== */
 </script>
